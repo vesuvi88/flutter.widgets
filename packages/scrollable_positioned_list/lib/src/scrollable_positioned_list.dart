@@ -287,25 +287,36 @@ class ScrollOffsetController {
       {required double offset,
       required Duration duration,
       Curve curve = Curves.linear}) async {
-    final currentPosition =
-        _scrollableListState!.primary.scrollController.offset;
+     final currentPosition =
+        scrollableListState!.primary.scrollController.offset;
     final newPosition = currentPosition + offset;
-    await _scrollableListState!.primary.scrollController.animateTo(
+    await scrollableListState!.primary.scrollController.animateTo(
       newPosition,
       duration: duration,
       curve: curve,
     );
   }
 
-  _ScrollablePositionedListState? _scrollableListState;
+  Future<void> animateScrollAbsolute(
+      {required double offset,
+      required Duration duration,
+      Curve curve = Curves.linear}) async {
+    await scrollableListState!.primary.scrollController.animateTo(
+      offset,
+      duration: duration,
+      curve: curve,
+    );
+  }
 
-  void _attach(_ScrollablePositionedListState scrollableListState) {
-    assert(_scrollableListState == null);
-    _scrollableListState = scrollableListState;
+  _ScrollablePositionedListState? scrollableListState;
+
+  void _attach(_ScrollablePositionedListState _scrollableListState) {
+    assert(scrollableListState == null);
+    scrollableListState = _scrollableListState;
   }
 
   void _detach() {
-    _scrollableListState = null;
+    scrollableListState = null;
   }
 }
 
